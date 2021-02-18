@@ -20,7 +20,7 @@ import java.util.List;
 
 @Component
 @RequiredArgsConstructor
-public class JwtProvider {
+public class JwtTokenProvider {
 
     @Value("spring.jwt.secret")
     private String secretKey;
