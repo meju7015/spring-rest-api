@@ -21,10 +21,10 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "user")
-public class User implements UserDetails {
+public class User extends TimeEntity implements UserDetails{
     @Id
     @GeneratedValue(strategy =  GenerationType.IDENTITY)
-    private long msrl;
+    private long id;
 
     @Column(nullable = false, unique = true, length = 30)
     private String uid;

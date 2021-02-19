@@ -38,7 +38,7 @@ public class SignController {
             throw new CEmailSigninFailedException();
 
         return responseService.getSingleResult(
-                jwtTokenProvider.createToken(String.valueOf(user.getMsrl()), user.getRoles())
+                jwtTokenProvider.createToken(String.valueOf(user.getId()), user.getRoles())
         );
     }
 
