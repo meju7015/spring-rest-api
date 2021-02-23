@@ -3,16 +3,14 @@ package com.stick.rest.controller;
 import com.stick.rest.advice.exception.CEmailSigninFailedException;
 import com.stick.rest.config.security.JwtTokenProvider;
 import com.stick.rest.entity.User;
+import com.stick.rest.model.request.UserSignRequest;
 import com.stick.rest.model.response.CommonResult;
 import com.stick.rest.model.response.SingleResult;
 import com.stick.rest.repository.UserJpaRepo;
 import com.stick.rest.service.ResponseService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
 
@@ -28,13 +26,12 @@ public class SignController {
 
     @PostMapping(value = "/signin")
     public SingleResult<String> signin(
-            @RequestParam String id,
-            @RequestParam String password
-    ) {
-        User user = userJpaRepo.findByUid(id)
+            @RequestBody UserSignRequest request
+            ) {
+        User user = userJpaRepo.findByUid(request.getEmail())
                 .orElseThrow(CEmailSigninFailedException::new);
 
-        if (!passwordEncoder.matches(password, user.getPassword()))
+        if (!passwordEncoder.matches(request.getPassword(), user.getPassword()))
             throw new CEmailSigninFailedException();
 
         return responseService.getSingleResult(
